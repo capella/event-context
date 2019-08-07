@@ -1,7 +1,6 @@
 # event-context
 
-- Event context for JavaScript
-- Work in both NodeJS and browsers
+- Work only with NodeJS
 - No dependencies
 
 ## Features
@@ -10,8 +9,6 @@
 2. automatic disposal for every pending tasks and event listeners to prevent memory leaks. EventContext works with Promise as well, so you can abort nested unresolved promises with ease. Context disposal is accessible everywhere with `ctx.dispose()`
 
 # Plugins
-EventContext for jQuery (jQuery events) https://www.npmjs.com/package/tfg-event-context-plugin-jquery
-
 EventContext for NodeJS (nextTick, EventEmitter) https://www.npmjs.com/package/tfg-event-context-plugin-node
 
 ## Installation:

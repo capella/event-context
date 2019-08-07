@@ -5,7 +5,6 @@ const capitalize = str => str[0].toUpperCase() + str.slice(1);
 
 const plugin = process.env.BUILD_PLUGIN;
 const input = plugin ? `src/plugins/${plugin}/index.js` : 'src/index.js';
-// const moduleName = plugin ? `EventContextPlugin${capitalize(plugin)}` : 'EventContext';
 const dest = plugin ? `build/plugins-${plugin}` : 'build/core';
 
 export default {

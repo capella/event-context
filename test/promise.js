@@ -1,5 +1,5 @@
 import { createContext, getCurrentContext, resetContexts } from '../src/context';
-import { patch, unpatch } from '../src/natives';
+import { patch, unpatch } from '../src/async';
 import { expect } from 'chai';
 import { once } from 'lodash';
 

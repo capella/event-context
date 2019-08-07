@@ -1,28 +1,4 @@
-import { createHook } from 'async_hooks';
-
 let contexts = [null];
-const AsyncFunction = (async function () {}).constructor;
-
-const contextsIds = {};
-createHook({
-  init(asyncId, type, triggerAsyncId) {
-    if (getCurrentContext()) {
-      contextsIds[asyncId] = getCurrentContext()
-    }
-  },
-  after(asyncId) {
-    if (contextsIds[asyncId]) {
-      revertContext()
-      delete contextsIds[asyncId]
-    }
-  },
-  before(asyncId) {
-      if (contextsIds[asyncId]) {
-        setCurrentContext(contextsIds[asyncId])
-      }
-  },
-  destroy(asyncId) {}
-}).enable();
 
 export const getCurrentContext = () => contexts[contexts.length-1];
 export const setCurrentContext = ctx => {

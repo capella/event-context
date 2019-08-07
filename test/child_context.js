@@ -1,6 +1,6 @@
 import { createContext, getCurrentContext } from '../src/context';
 import * as natives from '../src/natives';
-import * as promise from '../src/promise';
+import * as promise from '../src/async';
 import { expect } from 'chai';
 import { once } from 'lodash';
 
