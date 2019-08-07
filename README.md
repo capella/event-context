@@ -110,16 +110,5 @@ parent.run(() => {
 
 ```
 
-### Auto unbinding
-
-When you decide to stop all event listeners created in an context, just call `ctx.dispose()`
-
-```js
-const ctx = getCurrentContext();
-ctx.dispose()
-```
-
-All bound event handlers within the context will be removed.
-
 ## Contributions
 All contributions are super welcome

@@ -1,14 +1,11 @@
-import { createContext, getCurrentContext } from '../src/context';
-import * as natives from '../src/natives';
+import { createContext, getCurrentContext, resetContexts } from '../src/context';
 import * as promise from '../src/async';
 import { expect } from 'chai';
 import { once } from 'lodash';
 
 describe('getState', () => {
   describe('Promise', () => {
-    before(natives.patch);
     before(promise.patch);
-    after(natives.unpatch);
     after(promise.unpatch);
 
     it('should return parent ctx if .then is call in outer scope', done => {
@@ -16,7 +13,7 @@ describe('getState', () => {
       const checker = value => {
         const current = getCurrentContext();
         expect(value).to.equal(42);
-        expect(String(current)).equal('[Context parent]')
+        expect(String(current)).equal('[parent]')
         done()
       };
 
@@ -33,6 +30,7 @@ describe('getState', () => {
     });
 
     it('should switch to correct ctx', done => {
+      resetContexts()
       const ctx = createContext('parent');
       const sleep = ms => new Promise(resolve => {
         setTimeout(resolve, ms)
@@ -41,7 +39,7 @@ describe('getState', () => {
       const checker = value => {
         const current = getCurrentContext();
         expect(value).to.equal(42);
-        expect(String(current)).equal('[Context child]')
+        expect(String(current)).equal('[parent][child]')
         done()
       };
 

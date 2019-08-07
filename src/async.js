@@ -6,19 +6,21 @@ let patched = false;
 
 const hook = createHook({
   init(asyncId, type, triggerAsyncId) {
-    if (getCurrentContext()) {
-      contextsIds[asyncId] = getCurrentContext()
-    }
-  },
-  after(asyncId) {
-    if (contextsIds[asyncId]) {
-      revertContext()
+    const ctx = getCurrentContext()
+    if (ctx) {
+      if (!contextsIds[asyncId]) contextsIds[asyncId] = []
+      contextsIds[asyncId].push(ctx)
     }
   },
   before(asyncId) {
       if (contextsIds[asyncId]) {
         setCurrentContext(contextsIds[asyncId])
       }
+  },
+  after(asyncId) {
+    if (contextsIds[asyncId]) {
+      revertContext()
+    }
   },
   destroy(asyncId) {
     if (contextsIds[asyncId]) {

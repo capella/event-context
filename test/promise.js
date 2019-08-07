@@ -112,24 +112,5 @@ describe('createContext', () => {
         done()
       }).catch(done);
     });
-
-    it('should stop promises', done => {
-      const fail = label => done.bind(null, new Error(label));
-      const ctx = createContext();
-      ctx.run(() => {
-        const promise = new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(42);
-          }, 20)
-        });
-
-        promise.then(value => {
-          fail();
-        });
-      });
-
-      setTimeout(ctx.dispose, 10);
-      setTimeout(done, 30);
-    });
   });
 });

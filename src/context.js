@@ -1,21 +1,26 @@
-let contexts = [];
+let prevContext = null;
+let currentContext = null;
+let counter = 0
 
-export const getCurrentContext = () => contexts[contexts.length-1] || null;
+export const getCurrentContext = () => currentContext;
 export const setCurrentContext = ctx => {
-  contexts.push(ctx);
+  prevContext = currentContext;
+  currentContext = ctx;
 }
 export const revertContext = () => {
-  contexts.pop();
-}
-export const resetContexts = () => {
-  contexts = [];
+  currentContext = prevContext;
 }
 
-export const createContext = (label = 'anonymous') => {
+export const resetContexts = () => {
+  prevContext = null;
+  currentContext = null;
+}
+
+export const createContext = (label = counter) => {
   const ctx = {};
-  const disposables = [];
   let hasRun = false;
   let state = {};
+  counter++;
 
   const run = (computation) => {
     if (hasRun) {
@@ -35,16 +40,17 @@ export const createContext = (label = 'anonymous') => {
       return computation();
     }
     finally {
-      revertContext();
+      revertContext()
     }
   }
 
   // public API
   ctx.run = run;
-  ctx.addDisposable = (disposable) => disposables.push(disposable);
-  ctx.dispose = () => disposables.forEach(fn => fn());
   ctx.getState = () => state
-  ctx.toString = () => `[Context ${label}]`;
+  ctx.toString = () => {
+    if (ctx.parent === null) return `[${label}]`;
+    else return ctx.parent.toString()+`[${label}]`;
+  }
   return ctx;
 }
 
