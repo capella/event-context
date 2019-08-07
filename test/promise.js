@@ -1,12 +1,10 @@
 import { createContext, getCurrentContext, resetContexts } from '../src/context';
 import { patch, unpatch } from '../src/async';
 import { expect } from 'chai';
-import { once } from 'lodash';
 
 describe('createContext', () => {
   describe('Promise', () => {
     before(() => {
-      resetContexts()
       patch()
     });
     after(() => {
@@ -56,7 +54,7 @@ describe('createContext', () => {
       });
     });
 
-    it('should then work correctly', done => {
+    it('should work correctly with then', done => {
       resetContexts()
       const p = new Promise((resolve, reject) => {
         const ctx = createContext();
@@ -69,12 +67,12 @@ describe('createContext', () => {
         });
       });
       p.then(value => {
-        expect(!!getCurrentContext()).to.be.false;
+        expect(getCurrentContext()).to.be.null;
         done()
       }).catch(done);
     });
 
-    it('should catch work correctly', done => {
+    it('should work correctly with catch', done => {
       resetContexts()
       const p = new Promise((resolve, reject) => {
         const ctx = createContext();
@@ -90,12 +88,12 @@ describe('createContext', () => {
         });
       });
       p.then(value => {
-        expect(!!getCurrentContext()).to.be.false;
+        expect(getCurrentContext()).to.be.null;
         done()
       }).catch(done);
     });
 
-    it('should finally work correctly', done => {
+    it('should work correctly with finally', done => {
       resetContexts()
       const p = new Promise((resolve, reject) => {
         const ctx = createContext();
@@ -110,7 +108,7 @@ describe('createContext', () => {
         });
       });
       p.then(value => {
-        expect(!!getCurrentContext()).to.be.false;
+        expect(getCurrentContext()).to.be.null;
         done()
       }).catch(done);
     });

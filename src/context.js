@@ -1,6 +1,6 @@
-let contexts = [null];
+let contexts = [];
 
-export const getCurrentContext = () => contexts[contexts.length-1];
+export const getCurrentContext = () => contexts[contexts.length-1] || null;
 export const setCurrentContext = ctx => {
   contexts.push(ctx);
 }
@@ -8,7 +8,7 @@ export const revertContext = () => {
   contexts.pop();
 }
 export const resetContexts = () => {
-  contexts = [null];
+  contexts = [];
 }
 
 export const createContext = (label = 'anonymous') => {

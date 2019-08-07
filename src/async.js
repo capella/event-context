@@ -13,7 +13,6 @@ const hook = createHook({
   after(asyncId) {
     if (contextsIds[asyncId]) {
       revertContext()
-      delete contextsIds[asyncId]
     }
   },
   before(asyncId) {
@@ -21,7 +20,11 @@ const hook = createHook({
         setCurrentContext(contextsIds[asyncId])
       }
   },
-  destroy(asyncId) {}
+  destroy(asyncId) {
+    if (contextsIds[asyncId]) {
+      delete contextsIds[asyncId]
+    }
+  }
 })
 
 export const unpatch = () => {

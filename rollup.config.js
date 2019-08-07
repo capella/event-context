@@ -16,7 +16,6 @@ export default {
   ],
   plugins: [strip({
     debugger: true,
-    // defaults to `[ 'console.*', 'assert.*' ]`
     functions: [ 'console.*', 'assert.*', 'debug', 'alert' ],
   })]
 };
