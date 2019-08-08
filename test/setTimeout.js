@@ -1,5 +1,4 @@
-import { createContext } from '../src/context';
-import { patch, unpatch } from '../src/async';
+import { createContext, patch, unpatch } from '../src/context';
 import { expect } from 'chai';
 import { once } from 'lodash';
 

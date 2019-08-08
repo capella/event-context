@@ -1,25 +1,69 @@
-let prevContext = null;
-let currentContext = null;
-let counter = 0
+import { createHook, executionAsyncId } from 'async_hooks';
 
-export const getCurrentContext = () => currentContext;
+let contextsIds = {};
+let patched = false;
+let counter = 0;
+
+const hook = createHook({
+  init(asyncId, type, triggerAsyncId) {
+    const tarray = contextsIds[triggerAsyncId]
+    if (!tarray) return;
+    const tctx = tarray[tarray.length-1]
+    if (tctx) {
+      const newE = Object.assign({}, tctx)
+      newE.parent = tctx
+      contextsIds[asyncId] = [newE]
+    }
+  },
+  destroy(asyncId) {
+    delete contextsIds[asyncId]
+  }
+})
+
+export const unpatch = () => {
+  patched = false;
+  hook.disable()
+};
+
+export const patch = () => {
+  if (patched) {
+    console.warn(`Cannot call patch() for promise twice`);
+    return;
+  }
+  patched = true;
+  hook.enable()
+  return unpatch;
+}
+
+export const getCurrentContext = () => {
+  const ctxArray = contextsIds[executionAsyncId()]
+  if (!ctxArray) return null;
+  return ctxArray[ctxArray.length-1];
+}
 export const setCurrentContext = ctx => {
-  prevContext = currentContext;
-  currentContext = ctx;
+  const executionId = executionAsyncId()
+  if (!contextsIds[executionId]) {
+    contextsIds[executionId] = [ctx]
+  } else {
+    contextsIds[executionId].push(ctx)
+  }
 }
 export const revertContext = () => {
-  currentContext = prevContext;
+  contextsIds[executionAsyncId()].pop()
 }
-
 export const resetContexts = () => {
-  prevContext = null;
-  currentContext = null;
+  contextsIds = {}
 }
 
-export const createContext = (label = counter) => {
+export const p = () => {
+  return contextsIds
+}
+
+export const createContext = (label) => {
   const ctx = {};
   let hasRun = false;
   let state = {};
+  if (!label) label = counter;
   counter++;
 
   const run = (computation) => {
@@ -35,6 +79,13 @@ export const createContext = (label = counter) => {
       const parentState = Object.create(ctx.parent.getState());
       state = Object.assign(parentState, state);
     }
+
+    ctx.toString = () => {
+      if (!ctx.parent) return `[${label}]`;
+      else return ctx.parent.toString()+`[${label}]`;
+    }
+    ctx.name = ctx.toString()
+
     setCurrentContext(ctx);
     try {
       return computation();
@@ -48,8 +99,7 @@ export const createContext = (label = counter) => {
   ctx.run = run;
   ctx.getState = () => state
   ctx.toString = () => {
-    if (ctx.parent === null) return `[${label}]`;
-    else return ctx.parent.toString()+`[${label}]`;
+    return `[.${label}.]`;
   }
   return ctx;
 }

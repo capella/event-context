@@ -1,4 +1,4 @@
 export * from './context';
-import { patch} from './async';
+import { patch } from './context';
 
 patch();

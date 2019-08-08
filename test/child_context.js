@@ -1,12 +1,13 @@
-import { createContext, getCurrentContext, resetContexts } from '../src/context';
-import * as promise from '../src/async';
+import { createContext, getCurrentContext, resetContexts, patch, unpatch } from '../src/context';
 import { expect } from 'chai';
 import { once } from 'lodash';
+import { createHook, executionAsyncId } from 'async_hooks';
+
 
 describe('getState', () => {
   describe('Promise', () => {
-    before(promise.patch);
-    after(promise.unpatch);
+    before(patch);
+    after(unpatch);
 
     it('should return parent ctx if .then is call in outer scope', done => {
       const ctx = createContext('parent');

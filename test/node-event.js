@@ -4,8 +4,7 @@ import http from 'http';
 import EventEmitter from 'events';
 import { spy } from 'sinon';
 
-import { withContext, createContext, getCurrentContext } from '../src/context';
-import { patch, unpatch } from '../src/async';
+import { withContext, createContext, getCurrentContext, patch, unpatch } from '../src/context';
 
 const nativeSetTimeout = global.setTimeout;
 

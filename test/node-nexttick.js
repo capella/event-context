@@ -1,7 +1,6 @@
-import { patch, unpatch } from '../src/async';
 import { expect } from 'chai';
 import { once } from 'lodash';
-import { createContext, getCurrentContext } from '../src/context';
+import { createContext, getCurrentContext, patch, unpatch } from '../src/context';
 
 const nativeSetTimeout = global.setTimeout;
 
