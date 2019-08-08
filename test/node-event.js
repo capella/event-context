@@ -1,5 +1,5 @@
 import { expect, assert } from 'chai';
-import { after as lodashAfter, once } from 'lodash';
+import { once } from 'lodash';
 import http from 'http';
 import EventEmitter from 'events';
 import { spy } from 'sinon';

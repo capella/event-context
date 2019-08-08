@@ -1,4 +1,3 @@
-import buble from 'rollup-plugin-buble';
 import strip from 'rollup-plugin-strip';
 
 const capitalize = str => str[0].toUpperCase() + str.slice(1);

@@ -1,8 +1,6 @@
 import { createContext, getCurrentContext, resetContexts, patch, unpatch } from '../src/context';
 import { expect } from 'chai';
-import { once } from 'lodash';
 import { createHook, executionAsyncId } from 'async_hooks';
-
 
 describe('getState', () => {
   describe('Promise', () => {

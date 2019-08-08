@@ -1,5 +1,4 @@
 import multiEntry from 'rollup-plugin-multi-entry';
-import buble from 'rollup-plugin-buble';
 import alias from 'rollup-plugin-alias';
 import path from 'path';
 
