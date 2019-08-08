@@ -1,6 +1,6 @@
 {
   "name": "tfg-event-context",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Universal Event context for JavaScript",
   "main": "index.js",
   "jsnext:main": "index.es.js",
@@ -25,13 +25,12 @@
     "source-map-support": "^0.4.2"
   },
   "scripts": {
-    "build": "npm run build:core && npm run build:plugins",
+    "build": "npm run build:core",
     "build:core": "rollup -c && cp {README.md,package.json} build/core/",
-    "build:plugins": "node build_plugins",
     "test": "rollup -c rollup.test.config.js --sourcemap && mocha _test -R progress --require source-map-support/register --exit",
     "test:watch": "npm test || true && chokidar '{src,test}/**/*.js' -c 'npm test'",
     "prerelease": "npm run build jquery node",
-    "release": "cd build/core && npm publish && cd ../plugins-jquery && npm publish && cd ../plugins-node && npm publish",
+    "release": "cd build/core && npm publish",
     "postrelease": "rm -rf build"
   },
   "repository": {
@@ -49,5 +48,8 @@
   "bugs": {
     "url": "https://github.com/topfreegames/event-context/issues"
   },
-  "homepage": "https://github.com/topfreegames/event-context#readme"
+  "homepage": "https://github.com/topfreegames/event-context#readme",
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }
